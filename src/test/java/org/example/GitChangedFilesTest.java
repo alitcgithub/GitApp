@@ -7,5 +7,6 @@ class GitChangedFilesTest {
     @org.junit.jupiter.api.Test
     void mainTest() {
         System.out.println("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
+        assertTrue(true);
     }
 }
