@@ -32,3 +32,17 @@ jobs:
 
     - name: Build with Maven
       run: mvn test
+    - name: Execute Git Log
+      run: |
+        git log -1 --name-status
+        git branch
+        git log --oneline
+        pwd
+        ls -la
+        
+    - name: Compile and run Java program
+      run: |
+        pwd
+        tree
+        echo ${{ github.repository }}
+        java -cp target\GitApp-1.0-SNAPSHOT.jar org.example.GitAppMain ${{ github.repository }}
