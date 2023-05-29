@@ -39,3 +39,8 @@ jobs:
         git log --oneline
         pwd
         ls -la
+        
+    - name: Compile and run Java program
+      run: |
+        javac GitApp.java
+        java GitApp ${{ github.repository }}
