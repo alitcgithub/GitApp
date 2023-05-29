@@ -33,4 +33,7 @@ jobs:
       run: mvn test
       
     - name: Execute Git Log
-      run: git log -1 --name-status
+      run: |
+        git log -1 --name-status
+        git branch
+        git log --oneline
