@@ -37,3 +37,5 @@ jobs:
         git log -1 --name-status
         git branch
         git log --oneline
+        pwd
+        ls -la
