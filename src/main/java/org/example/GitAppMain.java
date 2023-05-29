@@ -4,9 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class GitChangedFiles {
+public class GitAppMain {
     public static void main(String[] args) {
-        String repositoryPath = "C:/projects/testrepo";
+        System.out.println(args[0]);
+        String repositoryPath = args[0];
         String branchName = "feature";
         String masterBranch = "master";
 
