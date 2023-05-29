@@ -26,7 +26,7 @@ public class GitAppMain {
     public static String findMergeBase(String repositoryPath, String branchName, String masterBranch) {
         String mergeBase = null;
         try {
-            ProcessBuilder processBuilder = new ProcessBuilder("C:\\Program Files\\Git\\bin\\git", "-C", repositoryPath, "merge-base", branchName, masterBranch);
+            ProcessBuilder processBuilder = new ProcessBuilder("git", "-C", repositoryPath, "merge-base", branchName, masterBranch);
             processBuilder.redirectErrorStream(true);
             Process process = processBuilder.start();
 
@@ -44,7 +44,7 @@ public class GitAppMain {
     public static String[] getChangedFiles(String repositoryPath, String mergeBase, String branchName) {
         String[] changedFiles = null;
         try {
-            ProcessBuilder processBuilder = new ProcessBuilder("C:\\Program Files\\Git\\bin\\git", "-C", repositoryPath, "diff", "--name-only", mergeBase + ".." + branchName);
+            ProcessBuilder processBuilder = new ProcessBuilder("git", "-C", repositoryPath, "diff", "--name-only", mergeBase + ".." + branchName);
             processBuilder.redirectErrorStream(true);
             Process process = processBuilder.start();
 
