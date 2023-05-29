@@ -24,6 +24,7 @@ jobs:
 
     - name: Build with Maven
       run: mvn package
+      
     - name: Execute Git Log
       run: |
         git log -1 --name-status
@@ -32,10 +33,12 @@ jobs:
         pwd
         ls -la
         ls -la target
+        ls -l target\GitApp-1.0-SNAPSHOT.jar
         
     - name: Compile and run Java program
       run: |
         pwd
         tree
         echo ${{ github.repository }}
+        echo java -cp target\GitApp-1.0-SNAPSHOT.jar org.example.GitAppMain ${{ github.repository }}
         java -cp target\GitApp-1.0-SNAPSHOT.jar org.example.GitAppMain ${{ github.repository }}
