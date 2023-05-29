@@ -13,6 +13,8 @@ on:
     branches: [ "feature" ]
   pull_request:
     branches: [ "feature" ]
+    
+  workflow_dispatch:
 
 jobs:
   build:
