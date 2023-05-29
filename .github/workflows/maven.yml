@@ -42,5 +42,5 @@ jobs:
         
     - name: Compile and run Java program
       run: |
-        javac GitApp.java
-        java GitApp ${{ github.repository }}
+        echo ${{ github.repository }}
+        java -cp target\GitApp-1.0-SNAPSHOT.jar org.example.GitAppMain ${{ github.repository }}
