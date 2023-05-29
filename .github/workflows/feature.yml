@@ -42,4 +42,6 @@ jobs:
         tree
         echo ${{ github.repository }}
         echo java -cp target\GitApp-1.0-SNAPSHOT.jar org.example.GitAppMain ${{ github.repository }}
+        echo --------------------------------------------------------------------------->>>
+        jar --list --file target\GitApp-1.0-SNAPSHOT.jar
         java -cp target\GitApp-1.0-SNAPSHOT.jar org.example.GitAppMain ${{ github.repository }}
