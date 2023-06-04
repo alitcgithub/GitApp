@@ -1,48 +1,53 @@
-# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
-
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-name: Java CI with Maven
+name: OpenVPN Connection and SQL*Plus Command
 
 on:
   push:
-    branches: [ "feature" ]
-  pull_request:
-    branches: [ "feature" ]
-    
-  workflow_dispatch:
+    branches:
+      - master
 
 jobs:
-  build:
-
+  vpn_job:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
+      - name: Cache VPN Credentials
+        uses: actions/cache@v2
+        with:
+          path: vpn/your-credentials-file.txt
+          key: vpn-credentials-${{ runner.os }}
 
-    - name: Build with Maven
-      run: mvn test
-      
-    - name: Execute Git Log
-      run: |
-        git log -1 --name-status
-        git branch
-        git log --oneline
-        pwd
-        ls -la
-        
-    - name: Compile and run Java program
-      run: |
-        echo ${{ github.repository }}
-        java -cp target\GitApp-1.0-SNAPSHOT.jar org.example.GitAppMain ${{ github.repository }}
+      - name: Set up OpenVPN
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openvpn
+
+          # Create the directory for VPN configuration
+          mkdir vpn
+          
+          # Store the OpenVPN configuration file and credentials file in the vpn directory
+          echo "${{ secrets.OPENVPN_CONFIG }}" > vpn/openvpncfg.ovpn
+          echo "${{ secrets.OPENVPN_CREDENTIALS }}" > vpn/openvpncredentials.txt
+
+          # Start the VPN connection
+          sudo openvpn --config vpn/your-config-file.ovpn --auth-user-pass vpn/your-credentials-file.txt --daemon
+          sleep 10 # Wait for the VPN connection to be established
+
+      - name: Install SQL*Plus and Oracle Instant Client
+        run: |
+          sudo apt-get install -y libaio1
+
+          # Set environment variables for Oracle Instant Client
+          export LD_LIBRARY_PATH=/root/oracle/instantclient_19_11
+          export ORACLE_HOME=/root/oracle/instantclient_19_11
+
+      - name: Download Oracle Instant Client
+        run: |
+          # ... Rest of the download and installation steps ...
+          
+      - name: Execute SQL*Plus Command
+        run: |
+          # Your SQL*Plus command
+          echo "SELECT * FROM your_table;" | /root/oracle/instantclient_19_11/sqlplus username/password@your_database
