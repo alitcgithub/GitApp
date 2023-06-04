@@ -45,15 +45,18 @@ jobs:
           # Download and install Oracle Instant Client
           mkdir oracle
           cd oracle
+          echo -- pwd ----------------------------------------------------------------
           pwd
           curl -o instantclient-basiclite-linux.x64-19.11.0.0.0dbru.zip https://download.oracle.com/otn_software/linux/instantclient/1911000/instantclient-basiclite-linux.x64-19.11.0.0.0dbru.zip
           unzip instantclient-basiclite-linux.x64-19.11.0.0.0dbru.zip
           sudo sh -c "echo /root/oracle/instantclient_19_11 > /etc/ld.so.conf.d/oracle-instantclient.conf"
           sudo ldconfig
           sudo apt-get install -y libaio1
+          tree
 
       - name: Set environment variables for Oracle Instant Client
         run: |
+          echo -- pwd ----------------------------------------------------------------
           pwd
           export LD_LIBRARY_PATH=instantclient_19_11
           export ORACLE_HOME=instantclient_19_11
