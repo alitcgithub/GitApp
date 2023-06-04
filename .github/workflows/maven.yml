@@ -24,30 +24,18 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y openvpn
 
-          # Create the directory for VPN configuration
-          mkdir vpn
+      - name: Create the directory for VPN configuration
+        run: mkdir vpn
           
-          # Store the OpenVPN configuration file and credentials file in the vpn directory
+      - name: Store the OpenVPN configuration file and credentials file in the vpn directory
+        run: |
+          echo "${{ secrets.OPENVPN_CONFIG }}"
+          echo "${{ secrets.OPENVPN_CREDENTIALS }}"
           echo "${{ secrets.OPENVPN_CONFIG }}" > vpn/openvpncfg.ovpn
           echo "${{ secrets.OPENVPN_CREDENTIALS }}" > vpn/openvpncredentials.txt
 
-          # Start the VPN connection
+      - name: Start the VPN connection
+        run: |
           sudo openvpn --config vpn/openvpncfg.ovpn --auth-user-pass vpn/openvpncredentials.txt --daemon
           sleep 10 # Wait for the VPN connection to be established
 
-      - name: Install SQL*Plus and Oracle Instant Client
-        run: |
-          sudo apt-get install -y libaio1
-
-          # Set environment variables for Oracle Instant Client
-          export LD_LIBRARY_PATH=/root/oracle/instantclient_19_11
-          export ORACLE_HOME=/root/oracle/instantclient_19_11
-
-      - name: Download Oracle Instant Client
-        run: |
-          # ... Rest of the download and installation steps ...
-          
-      - name: Execute SQL*Plus Command
-        run: |
-          # Your SQL*Plus command
-          echo "SELECT * FROM your_table;" | /root/oracle/instantclient_19_11/sqlplus username/password@your_database
