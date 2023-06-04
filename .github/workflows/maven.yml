@@ -58,5 +58,6 @@ jobs:
           export ORACLE_HOME=/root/oracle/instantclient_19_11
 
           # Your SQL*Plus command
-          echo "SELECT * FROM DUAL;" | /root/oracle/instantclient_19_11/sqlplus licensing/licensing@10.10.32.18/LIONSIT
+          #sudo chmod +x /root/oracle/instantclient_19_11/sqlplus
+          ls -la /root/oracle/instantclient_19_11/sqlplus
           echo "SELECT * FROM DUAL;" | sudo /root/oracle/instantclient_19_11/sqlplus licensing/licensing@10.10.32.18/LIONSIT > /dev/null
