@@ -56,7 +56,7 @@ jobs:
           sudo apt-get install -y libnss3
           sudo apt-get install -y libnsl-dev
           sudo apt-get install -y rlwrap
-          echo 'export ORACLE_HOME="/root/oracle/instantclient_19_11"' >> ~/.bashrc
+          echo 'export ORACLE_HOME="/home/runner/oracle/instantclient_19_11"' >> ~/.bashrc
           echo 'export LD_LIBRARY_PATH="$ORACLE_HOME"' >> ~/.bashrc
           echo 'export PATH="$ORACLE_HOME:$PATH"' >> ~/.bashrc
           source ~/.bashrc
@@ -70,4 +70,4 @@ jobs:
         run: |
           tree
           ~/run_sqlplus.sh
-          echo "SELECT * FROM DUAL;" | sudo /root/oracle/instantclient_19_11/sqlplus licensing/licensing@10.10.32.18/LIONSIT > /dev/null
+          echo "SELECT * FROM DUAL;" | sudo /home/runner/oracle/instantclient_19_11/sqlplus licensing/licensing@10.10.32.18/LIONSIT > /dev/null
