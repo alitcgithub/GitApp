@@ -55,12 +55,11 @@ jobs:
       # Install sqlplus
       - name: Install sqlplus
         run: |
-          cd ~/oracle
           echo -- pwd -------------------------------
           pwd
           sudo apt-get install -y rlwrap
           sudo apt-get install -y alien
-          sudo alien -i /home/runner/oracle/instantclient_19_11/oracle-instantclient19.11-basiclite-19.11.0.0.0-1.x86_64.rpm
+          sudo alien -i instantclient_19_11/oracle-instantclient19.11-basiclite-19.11.0.0.0-1.x86_64.rpm
           sudo apt-get install -y libaio1
           echo -- ls -------------------------------
           ls /usr/lib/libclntsh.so
