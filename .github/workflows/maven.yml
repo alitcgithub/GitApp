@@ -41,6 +41,7 @@ jobs:
       # Install Oracle Instant Client
       - name: Install Oracle Instant Client
         run: |
+          pwd
           mkdir oracle
           cd ~/oracle
           echo ---------------------------------
