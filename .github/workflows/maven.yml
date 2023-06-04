@@ -41,8 +41,8 @@ jobs:
       # Install Oracle Instant Client
       - name: Install Oracle Instant Client
         run: |
-          mkdir ~/oracle
-          cd ~/oracle
+          cd /root
+          mkdir oracle
           echo ---------------------------------
           pwd
           sudo apt-get update
