@@ -67,4 +67,4 @@ jobs:
 
           # Execute SQL*Plus commands
           #/opt/oracle/run_sqlplus.sh
-          echo "SELECT * FROM DUAL;" | sqlplus licensing/licensing@10.10.32.18/LIONSIT
+          echo "SELECT COUNT(*) FROM t_scountries;" | sqlplus licensing/licensing@10.10.32.18/LIONSIT
