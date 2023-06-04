@@ -41,16 +41,15 @@ jobs:
       # Install Oracle Instant Client
       - name: Install Oracle Instant Client
         run: |
-          pwd
-          mkdir oracle
-          cd ~/oracle
           echo ---------------------------------
           pwd
           sudo apt-get update
           sudo apt-get install -y libaio1
           curl -o instantclient-basic-linux.x64-19.11.0.0.0dbru.zip https://download.oracle.com/otn_software/linux/instantclient/1911000/instantclient-basic-linux.x64-19.11.0.0.0dbru.zip
           unzip instantclient-basic-linux.x64-19.11.0.0.0dbru.zip
-          sudo sh -c "echo /home/runner/oracle/instantclient_19_11 > /etc/ld.so.conf.d/oracle-instantclient.conf"
+          tree
+          ls -R .
+          sudo sh -c "echo ~/home/runner/oracle/instantclient_19_11 > /etc/ld.so.conf.d/oracle-instantclient.conf"
           sudo ldconfig
 
       # Install sqlplus
