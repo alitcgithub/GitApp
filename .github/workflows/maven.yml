@@ -59,7 +59,7 @@ jobs:
           echo C h a n g e to oracle directory
           cd oracle
           echo L i s t i n g
-          ls -al
+          ls -R .
           echo w h e r e i s
           whereis sqlplus
           echo -- pwd ----------------------------------------------------------------
@@ -67,6 +67,7 @@ jobs:
           export LD_LIBRARY_PATH=instantclient_19_11
           export ORACLE_HOME=instantclient_19_11
           #sudo chmod +x /root/oracle/instantclient_19_11/sqlplus
+          echo C h e c k version of sqlplus
           sqlplus -v
           ls -la instantclient_19_11/sqlplus
           echo "SELECT * FROM DUAL;" | sudo /root/oracle/instantclient_19_11/sqlplus licensing/licensing@10.10.32.18/LIONSIT > /dev/null
