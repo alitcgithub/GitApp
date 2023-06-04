@@ -61,3 +61,9 @@ jobs:
           
           export LD_LIBRARY_PATH=/opt/oracle/instantclient_21_8:$LD_LIBRARY_PATH
           export PATH=/opt/oracle/instantclient_21_8:$PATH
+          
+          echo "sqlplus licensing/licensing@10.10.32.18/LIONSIT" > /opt/oracle/run_sqlplus.sh
+          chmod +x ~/run_sqlplus.sh
+
+          # Execute SQL*Plus commands
+          /opt/oracle/run_sqlplus.sh
