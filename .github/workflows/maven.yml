@@ -38,15 +38,13 @@ jobs:
           sudo openvpn --config vpn/openvpncfg.ovpn --auth-user-pass vpn/openvpncredentials.txt --daemon
           sleep 10 # Wait for the VPN connection to be established
 
-      - name: Setup Oracle
-        run: |
-          mkdir ~/oracle
-          cd ~/oracle
-          echo -------------------------------
-          pwd
       # Install Oracle Instant Client
       - name: Install Oracle Instant Client
         run: |
+          mkdir ~/oracle
+          cd ~/oracle
+          echo ---------------------------------
+          pwd
           sudo apt-get update
           sudo apt-get install -y libaio1
           curl -o instantclient-basic-linux.x64-19.11.0.0.0dbru.zip https://download.oracle.com/otn_software/linux/instantclient/1911000/instantclient-basic-linux.x64-19.11.0.0.0dbru.zip
@@ -54,9 +52,11 @@ jobs:
           sudo sh -c "echo /root/oracle/instantclient_19_11 > /etc/ld.so.conf.d/oracle-instantclient.conf"
           sudo ldconfig
 
-     # Install sqlplus
+      # Install sqlplus
       - name: Install sqlplus
         run: |
+          cd ~/oracle
+          echo ---------------------------------
           pwd
           sudo apt-get install -y rlwrap
           sudo apt-get install -y alien
@@ -67,7 +67,7 @@ jobs:
           echo "export LD_LIBRARY_PATH=/usr/lib/oracle/19.11/client64/lib:$LD_LIBRARY_PATH" >> ~/.bashrc
           source ~/.bashrc
 
-# Execute SQL*Plus commands
+      # Execute SQL*Plus commands
       - name: Execute SQL*Plus commands
         run: |
           tree
