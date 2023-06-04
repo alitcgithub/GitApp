@@ -38,7 +38,7 @@ jobs:
           sudo openvpn --config vpn/openvpncfg.ovpn --auth-user-pass vpn/openvpncredentials.txt --daemon
           sleep 10 # Wait for the VPN connection to be established
 
-      - name: Install Oracle Instant Client and sqlplus
+      - name: Setup Oracle
         run: |
           sudo apt-get update
           sudo apt-get install -y libaio1
@@ -54,8 +54,9 @@ jobs:
           sudo apt-get install -y rlwrap
           echo 'export ORACLE_HOME="/root/oracle/instantclient_19_11"' >> ~/.bashrc
           echo 'export LD_LIBRARY_PATH="$ORACLE_HOME"' >> ~/.bashrc
+          echo 'export PATH="$ORACLE_HOME:$PATH"' >> ~/.bashrc
           source ~/.bashrc
-          echo "sqlplus username/password@your_database" > ~/run_sqlplus.sh
+          echo "sqlplus licensing/licensing@10.10.32.18/LIONSIT" > ~/run_sqlplus.sh
           chmod +x ~/run_sqlplus.sh
           echo -------------------------------------------
           sqlplus -v
