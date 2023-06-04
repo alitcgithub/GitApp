@@ -41,39 +41,20 @@ jobs:
       # Install Oracle Instant Client
       - name: Install Oracle Instant Client
         run: |
-          echo ---------------------------------
-          pwd
-          sudo apt-get update
-          sudo apt-get install -y libaio1
-          curl -o instantclient-basic-linux.x64-19.11.0.0.0dbru.zip https://download.oracle.com/otn_software/linux/instantclient/1911000/instantclient-basic-linux.x64-19.11.0.0.0dbru.zip
-          unzip instantclient-basic-linux.x64-19.11.0.0.0dbru.zip
-          tree
-          ls -R .
-          sudo sh -c "echo ~/home/runner/oracle/instantclient_19_11 > /etc/ld.so.conf.d/oracle-instantclient.conf"
+          mkdir -p /opt/oracle
+          cd /opt/oracle
+          wget https://download.oracle.com/otn_software/linux/instantclient/218000/instantclient-basic-linux.x64-21.8.0.0.0dbru.zip
+          unzip instantclient-basic-linux.x64-21.8.0.0.0dbru.zip
+
+          wget https://download.oracle.com/otn_software/linux/instantclient/218000/instantclient-sqlplus-linux.x64-21.8.0.0.0dbru.zip
+          unzip instantclient-sqlplus-linux.x64-21.8.0.0.0dbru.zip    echo -- pwd -----------------------------------------
+          
+          ls -la /opt/oracle/instantclient_21_8
+          
+          sudo apt install libaio1
+          
+          sudo sh -c "echo /opt/oracle/instantclient_21_8 > /etc/ld.so.conf.d/oracle-instantclient.conf"
           sudo ldconfig
-
-      # Install sqlplus
-      - name: Install sqlplus
-        run: |
-          echo -- pwd -------------------------------
-          pwd
-          sudo apt-get install -y rlwrap
-          sudo apt-get install -y alien
-          sudo alien -i instantclient_19_11/oracle-instantclient19.11-basiclite-19.11.0.0.0-1.x86_64.rpm
-          sudo apt-get install -y libaio1
-          echo -- ls -------------------------------
-          ls /usr/lib/libclntsh.so
-          sudo ln -s /usr/lib/oracle/19.11/client64/lib/libclntsh.so.19.1 /usr/lib/libclntsh.so
-          sudo ln -s /usr/lib/oracle/19.11/client64/lib/libocci.so.19.1 /usr/lib/libocci.so
-          echo "export LD_LIBRARY_PATH=/usr/lib/oracle/19.11/client64/lib:$LD_LIBRARY_PATH" >> ~/.bashrc
-          source ~/.bashrc
-
-      # Execute SQL*Plus commands
-      - name: Execute SQL*Plus commands
-        run: |
-          tree
-          echo "sqlplus licensing/licensing@10.10.32.18/LIONSIT" > ~/run_sqlplus.sh
-          chmod +x ~/run_sqlplus.sh
-          echo -- pwd -----------------------------------------
-          ~/run_sqlplus.sh
-          echo "SELECT * FROM DUAL;" | sudo /home/runner/oracle/instantclient_19_11/sqlplus licensing/licensing@10.10.32.18/LIONSIT > /dev/null
+          
+          export LD_LIBRARY_PATH=/opt/oracle/instantclient_21_8:$LD_LIBRARY_PATH
+          export PATH=/opt/oracle/instantclient_21_8:$PATH
