@@ -41,7 +41,7 @@ jobs:
       - name: Setup Oracle
         run: |
           mkdir ~/oracle
-          cd oracle
+          cd ~/oracle
           echo -------------------------------
           pwd
           sudo apt-get update
