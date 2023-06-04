@@ -38,32 +38,27 @@ jobs:
           sudo openvpn --config vpn/openvpncfg.ovpn --auth-user-pass vpn/openvpncredentials.txt --daemon
           sleep 10 # Wait for the VPN connection to be established
 
-      - name: Install SQL*Plus and Oracle Instant Client
+      - name: Download and install Oracle Instant Client
         run: |
-          sudo apt-get install -y libaio1
-
-          # Download and install Oracle Instant Client
-          mkdir oracle
-          cd oracle
           echo -- pwd ----------------------------------------------------------------
           pwd
-          curl -o instantclient-basiclite-linux.x64-19.11.0.0.0dbru.zip https://download.oracle.com/otn_software/linux/instantclient/1911000/instantclient-basiclite-linux.x64-19.11.0.0.0dbru.zip
-          unzip instantclient-basiclite-linux.x64-19.11.0.0.0dbru.zip
+          sudo apt-get update
+          sudo apt-get install -y libaio1
+          curl -o instantclient-basic-linux.x64-19.11.0.0.0dbru.zip https://download.oracle.com/otn_software/linux/instantclient/1911000/instantclient-basic-linux.x64-19.11.0.0.0dbru.zip
+          unzip instantclient-basic-linux.x64-19.11.0.0.0dbru.zip
           sudo sh -c "echo /root/oracle/instantclient_19_11 > /etc/ld.so.conf.d/oracle-instantclient.conf"
           sudo ldconfig
-          sudo apt-get install -y libaio1
+          sudo apt-get install -y sqlplus
           tree
 
       - name: Set environment variables for Oracle Instant Client
         run: |
-          echo C h a n g e to oracle directory
-          cd oracle
+          echo -- pwd ----------------------------------------------------------------
+          pwd
           echo L i s t i n g
           ls -R .
           echo w h e r e i s
           whereis sqlplus
-          echo -- pwd ----------------------------------------------------------------
-          pwd
           export LD_LIBRARY_PATH=instantclient_19_11
           export ORACLE_HOME=instantclient_19_11
           #sudo chmod +x /root/oracle/instantclient_19_11/sqlplus
