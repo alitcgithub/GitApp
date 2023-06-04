@@ -56,7 +56,11 @@ jobs:
 
       - name: Set environment variables for Oracle Instant Client
         run: |
+          echo C h a n g e to oracle directory
           cd oracle
+          echo L i s t i n g
+          ls -al
+          echo w h e r e i s
           whereis sqlplus
           echo -- pwd ----------------------------------------------------------------
           pwd
