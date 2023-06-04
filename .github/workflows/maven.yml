@@ -29,13 +29,33 @@ jobs:
           
       - name: Store the OpenVPN configuration file and credentials file in the vpn directory
         run: |
-          echo "${{ secrets.OPENVPN_CONFIG }}"
-          echo "${{ secrets.OPENVPN_CREDENTIALS }}"
           echo "${{ secrets.OPENVPN_CONFIG }}" > vpn/openvpncfg.ovpn
           echo "${{ secrets.OPENVPN_CREDENTIALS }}" > vpn/openvpncredentials.txt
+          ls -al vpn
 
       - name: Start the VPN connection
         run: |
           sudo openvpn --config vpn/openvpncfg.ovpn --auth-user-pass vpn/openvpncredentials.txt --daemon
           sleep 10 # Wait for the VPN connection to be established
 
+      - name: Install SQL*Plus and Oracle Instant Client
+        run: |
+          sudo apt-get install -y libaio1
+
+          # Download and install Oracle Instant Client
+          mkdir ~/oracle
+          cd ~/oracle
+          curl -o instantclient-basiclite-linux.x64-19.11.0.0.0dbru.zip https://download.oracle.com/otn_software/linux/instantclient/1911000/instantclient-basiclite-linux.x64-19.11.0.0.0dbru.zip
+          unzip instantclient-basiclite-linux.x64-19.11.0.0.0dbru.zip
+          sudo sh -c "echo /root/oracle/instantclient_19_11 > /etc/ld.so.conf.d/oracle-instantclient.conf"
+          sudo ldconfig
+          sudo apt-get install -y libaio1
+
+      - name: Execute SQL*Plus Command
+        run: |
+          # Set environment variables for Oracle Instant Client
+          export LD_LIBRARY_PATH=/root/oracle/instantclient_19_11
+          export ORACLE_HOME=/root/oracle/instantclient_19_11
+
+          # Your SQL*Plus command
+          echo "SELECT * FROM DUAL;" | /root/oracle/instantclient_19_11/sqlplus licensing/licensing@10.10.32.18/LIONSIT
