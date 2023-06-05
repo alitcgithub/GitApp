@@ -1,4 +1,4 @@
-name: OpenVPN Connection and SQL*Plus Command
+name: Deployment
 
 on:
   push:
@@ -6,12 +6,17 @@ on:
       - master
 
 jobs:
-  vpn_job:
+  deployment:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        
+      - name: Get working directory
+        run: |
+          pwd
+          ls -R .
 
       - name: Cache VPN Credentials
         uses: actions/cache@v2
@@ -62,9 +67,12 @@ jobs:
           export LD_LIBRARY_PATH=/opt/oracle/instantclient_21_8:$LD_LIBRARY_PATH
           export PATH=/opt/oracle/instantclient_21_8:$PATH
           
-          #echo "sqlplus licensing/licensing@10.10.32.18/LIONSIT" > /opt/oracle/run_sqlplus.sh
+          #echo "sqlplus ..." > /opt/oracle/run_sqlplus.sh
           #chmod +x /opt/oracle/run_sqlplus.sh
-
-          # Execute SQL*Plus commands
           #/opt/oracle/run_sqlplus.sh
-          echo "SELECT COUNT(*) FROM t_scountries;" | sqlplus licensing/licensing@10.10.32.18/LIONSIT
+          echo --- --- --- --- ---
+          pwd
+          ls -la
+          
+          echo "SELECT COUNT(*) FROM t_scountries;" | sqlplus ${{ secrets.ORACLE_USERNAME }}/${{ secrets.ORACLE_PASSWORD }}@${{ secrets.HOST }}/${{ secrets.SERVICE_NAME }}
+          sqlplus ${{ secrets.ORACLE_USERNAME }}/${{ secrets.ORACLE_PASSWORD }}@${{ secrets.HOST }}/${{ secrets.SERVICE_NAME }} @"$GITHUB_WORKSPACE/scripts/test.sql"
