@@ -21,7 +21,7 @@ jobs:
       - name: Cache VPN Credentials
         uses: actions/cache@v2
         with:
-          path: vpn/your-credentials-file.txt
+          path: vpn/openvpncredentials.txt
           key: vpn-credentials-${{ runner.os }}
 
       - name: Set up OpenVPN
@@ -41,7 +41,6 @@ jobs:
       - name: Start the VPN connection
         run: |
           sudo openvpn --config vpn/openvpncfg.ovpn --auth-user-pass vpn/openvpncredentials.txt --daemon
-          sleep 10 # Wait for the VPN connection to be established
 
       # Install Oracle Instant Client
       - name: Install Oracle Instant Client
