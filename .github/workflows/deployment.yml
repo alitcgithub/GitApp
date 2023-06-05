@@ -32,7 +32,10 @@ jobs:
           sudo apt-get install -y openvpn
 
       - name: Create the directory for VPN configuration
-        run: mkdir vpn
+        run: |
+          if [ ! -d "vpn" ]; then
+            mkdir vpn
+          fi
           
       - name: Store the OpenVPN configuration file and credentials file in the vpn directory
         run: |
