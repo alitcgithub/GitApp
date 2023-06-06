@@ -76,7 +76,7 @@ jobs:
           #/opt/oracle/run_sqlplus.sh
           echo --- --- --- --- ---
           pwd
-          ls -la
+          ls -la 
           
           echo "SELECT COUNT(*) FROM t_scountries;" | sqlplus ${{ secrets.ORACLE_USERNAME }}/${{ secrets.ORACLE_PASSWORD }}@${{ secrets.HOST }}/${{ secrets.SERVICE_NAME }}
           sqlplus ${{ secrets.ORACLE_USERNAME }}/${{ secrets.ORACLE_PASSWORD }}@${{ secrets.HOST }}/${{ secrets.SERVICE_NAME }} @"$GITHUB_WORKSPACE/scripts/test.sql"
