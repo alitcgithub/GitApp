@@ -59,7 +59,9 @@ jobs:
         id: generate-file
         run: |
           # Run your Java program and capture the file name
-          file_name=$(java -jar FileGenerator.jar)
+          pwd
+          tree
+          file_name=$(java -jar lib/FileGenerator.jar)
           echo "::set-output name=file-name::${file_name}"
 
       - name: Step 6 - Run Script
