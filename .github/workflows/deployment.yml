@@ -30,12 +30,13 @@ jobs:
         with:
           java-version: '17'
           distribution: 'adopt'
-
+          
       - name: Step 4 - Build Java Program
         run: |
           # Compile and build your Java program
           javac -d build src/main/java/org/example/*.java
-          jar cvf FileGenerator.jar -C build .
+          echo "Main-Class: org.example.FileGenerator" > manifest.txt
+          jar cvfm FileGenerator.jar manifest.txt -C build .
 
       - name: Step 5 - Generate File
         id: generate-file
