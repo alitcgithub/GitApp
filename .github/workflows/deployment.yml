@@ -61,6 +61,12 @@ jobs:
           # Run your Java program and capture the file name
           java -cp lib/FileGenerator.jar org.example.FileGenerator
           find dscripts -type f -exec echo {} \; > file_list.txt
+          echo cat file_list.txt
+          cat file_list.txt
+          
+          mapfile -t generated_files < <(find dscripts -type f)
+          echo "::set-output name=generated-files::${generated_files[*]}"
+         
           file_names=$(cat file_list.txt)
           #file_names=$(find dscripts -name "*.txt" -type f)
           echo "::set-output name=file-names::${file_names}"
