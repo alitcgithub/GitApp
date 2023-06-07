@@ -7,54 +7,19 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: PWD
-        run: pwd
-
-      - name: Set up JDK
+      - name: Step 1 - Generate SQL script
+        id: generate-script
         run: |
-          # Download the desired Java distribution
-          # Replace 'url_to_jdk' with the actual URL of the JDK distribution
-          pwd
-          curl -L -o jdk.zip 'url_to_jdk'
-          # Verify the downloaded file
-          if not exist jdk.zip (
-            echo "Failed to download JDK distribution."
-            exit 1
-          )
+          # Generate the SQL script and store it in a file
+          # You can use any logic or commands to generate the script
+          echo "SELECT * FROM table_name;" > script_$(( RANDOM % 1000 + 1 )).sql
+          echo "::set-output name=script-name::script_$(( RANDOM % 1000 + 1 )).sql"
 
-          # Extract the downloaded JDK distribution
-          Expand-Archive -Path jdk.zip -DestinationPath $env:JAVA_HOME
-          # Set the Java environment variables
-          $env:JAVA_HOME = "$(Get-ChildItem -Path $env:JAVA_HOME | Where-Object { $_.PSIsContainer }).FullName"
-          $env:Path = "$env:JAVA_HOME\bin;$env:Path"
-          # Verify the Java installation
-          java -version
-
-      - name: Compile and run Java program
+      - name: Step 2 - Run SQL script
         run: |
-          # Compile and run your Java program
-          javac MyProgram.java
-          java MyProgram
-
-      - name: Get generated file name
-        id: get-file-name
-        run: |
-          # List the contents of the 'scripts' directory and capture the filename(s)
-          dir scripts
-          echo "::set-output name=generated-files::$(dir /B /A-D scripts)"
-
-      - name: Use generated file in subsequent steps
-        run: |
-          # Retrieve the generated file names and use them in subsequent steps
-          filenames=${{ steps.get-file-name.outputs.generated-files }}
-          # Iterate over the filenames or select a specific one based on your criteria
-          for %%F in ($filenames) do (
-            echo "Using file: %%F"
-            # ... other commands that require the file
-          )
+          # Use the script name generated in Step 1
+          script_name=${{ steps.generate-script.outputs.script-name }}
+          echo ${script_name}
