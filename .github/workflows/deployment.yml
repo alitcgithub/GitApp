@@ -66,6 +66,9 @@ jobs:
           
           mapfile -t generated_files < <(find dscripts -type f)
           echo "::set-output name=generated-files::${generated_files[*]}"
+          
+          generated_files1=$(find dscripts -type f -print0 | xargs -0 -I {} basename {})
+          echo "::set-output name=generated-files1::${generated_files1}"
          
           file_names=$(cat file_list.txt)
           #file_names=$(find dscripts -name "*.txt" -type f)
