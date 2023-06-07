@@ -3,7 +3,7 @@ name: Example Workflow
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:
@@ -29,7 +29,6 @@ jobs:
       - name: Compile and run Java program
         run: |
           # Compile and run your Java program
-          echo ------------------------------
           pwd
           javac MyProgram.java
           java MyProgram
