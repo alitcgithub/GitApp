@@ -37,12 +37,13 @@ jobs:
           javac -d classes src/main/java/org/example/FileGenerator.java
           tree
           pwd
-          cd classes
-          pwd
-          java org.example.FileGenerator
+          #cd classes
+          #pwd
+          #java org.example.FileGenerator
+          echo ---------------------------
           ls -l
           #echo "Main-Class: org.example.FileGenerator" > manifest.txt
-          cd ..
+          #cd ..
           pwd
           jar cvf lib/FileGenerator.jar -C classes .
           pwd
