@@ -75,6 +75,6 @@ jobs:
             # Process each generated file
             echo "Processing file: $file"
             # ... Your file processing logic here ...
-            echo cat "$scripts_directory/$file"
-            cat "$scripts_directory/$file"
+            echo cat "$file"
+            cat "$file"
           done
