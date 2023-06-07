@@ -60,20 +60,21 @@ jobs:
         run: |
           # Run your Java program and capture the file name
           java -cp lib/FileGenerator.jar org.example.FileGenerator
-          file_name=$(find dscripts -type f)
-          echo "::set-output name=file-name::${file_name}"
+          file_names=$(find dscripts -name "*.txt" -type f)
+          echo "::set-output name=file-names::${file_names}"
           pwd
           tree
 
       - name: Step 6 - Run Script
         run: |
           # Use the file name generated in Step 5
-          file_name=${{ steps.generate-file.outputs.file-name }}
+          file_names=${{ steps.generate-file.outputs.file-names }}
           scripts_directory="dscripts"  # Specify the directory path if needed
           #java -jar script_runner.jar "$scripts_directory/$file_name"
-          for file in $file_name; do
+          for file in $file_names; do
             # Process each generated file
             echo "Processing file: $file"
             # ... Your file processing logic here ...
+            echo cat "$scripts_directory/$file"
             cat "$scripts_directory/$file"
           done
