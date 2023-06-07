@@ -38,7 +38,9 @@ jobs:
           tree
           pwd
           #echo "Main-Class: org.example.FileGenerator" > manifest.txt
-          jar cvf FileGenerator.jar -C classes .
+          jar cvf lib/FileGenerator.jar -C classes .
+          pwd
+          ls -l
           tree
 
       - name: Step 5 - Generate File
