@@ -36,8 +36,9 @@ jobs:
           # Compile and build your Java program
           javac -d classes src/main/java/org/example/FileGenerator.java
           tree
-          echo "Main-Class: org.example.FileGenerator" > manifest.txt
-          jar cvfm FileGenerator.jar manifest.txt -C build .
+          pwd
+          #echo "Main-Class: org.example.FileGenerator" > manifest.txt
+          jar cvf FileGenerator.jar -C classes .
           tree
 
       - name: Step 5 - Generate File
