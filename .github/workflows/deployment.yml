@@ -34,7 +34,7 @@ jobs:
       - name: Step 4 - Build Java Program
         run: |
           # Compile and build your Java program
-          javac -d build src/main/java/org/example/FileGenerator.java
+          javac -d classes src/main/java/org/example/FileGenerator.java
           tree
           echo "Main-Class: org.example.FileGenerator" > manifest.txt
           jar cvfm FileGenerator.jar manifest.txt -C build .
