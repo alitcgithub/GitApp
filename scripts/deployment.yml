@@ -1,0 +1,82 @@
+name: Deployment
+
+on:
+  push:
+    branches:
+      - master
+
+  workflow_dispatch:
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        
+      - name: Get working directory
+        run: |
+          pwd
+          ls -R .
+
+      - name: Cache VPN Credentials
+        uses: actions/cache@v2
+        with:
+          path: vpn/openvpncredentials.txt
+          key: vpn-credentials-${{ runner.os }}
+
+      - name: Set up OpenVPN
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openvpn
+
+      - name: Create the directory for VPN configuration
+        run: |
+          if [ ! -d "vpn" ]; then
+            mkdir vpn
+          fi
+          
+      - name: Store the OpenVPN configuration file and credentials file in the vpn directory
+        run: |
+          echo "${{ secrets.OPENVPN_CONFIG }}" > vpn/openvpncfg.ovpn
+          echo "${{ secrets.OPENVPN_CREDENTIALS }}" > vpn/openvpncredentials.txt
+          ls -al vpn
+
+      - name: Start the VPN connection
+        run: |
+          sudo openvpn --config vpn/openvpncfg.ovpn --auth-user-pass vpn/openvpncredentials.txt --daemon
+
+      # Install Oracle Instant Client
+      - name: Install Oracle Instant Client
+        run: |
+          mkdir -p /opt/oracle
+          cd /opt/oracle
+          echo ---------------------------------------------
+          pwd
+          wget https://download.oracle.com/otn_software/linux/instantclient/218000/instantclient-basic-linux.x64-21.8.0.0.0dbru.zip
+          unzip instantclient-basic-linux.x64-21.8.0.0.0dbru.zip
+
+          wget https://download.oracle.com/otn_software/linux/instantclient/218000/instantclient-sqlplus-linux.x64-21.8.0.0.0dbru.zip
+          unzip instantclient-sqlplus-linux.x64-21.8.0.0.0dbru.zip
+          
+          echo ----------------------------------------
+          ls -la /opt/oracle/instantclient_21_8
+          
+          sudo apt install libaio1
+          
+          sudo sh -c "echo /opt/oracle/instantclient_21_8 > /etc/ld.so.conf.d/oracle-instantclient.conf"
+          sudo ldconfig
+          
+          export LD_LIBRARY_PATH=/opt/oracle/instantclient_21_8:$LD_LIBRARY_PATH
+          export PATH=/opt/oracle/instantclient_21_8:$PATH
+          
+          #echo "sqlplus ..." > /opt/oracle/run_sqlplus.sh
+          #chmod +x /opt/oracle/run_sqlplus.sh
+          #/opt/oracle/run_sqlplus.sh
+          echo --- --- --- --- ---
+          pwd
+          ls -la 
+          
+          echo "SELECT COUNT(*) FROM t_scountries;" | sqlplus ${{ secrets.ORACLE_USERNAME }}/${{ secrets.ORACLE_PASSWORD }}@${{ secrets.HOST }}/${{ secrets.SERVICE_NAME }}
+          sqlplus ${{ secrets.ORACLE_USERNAME }}/${{ secrets.ORACLE_PASSWORD }}@${{ secrets.HOST }}/${{ secrets.SERVICE_NAME }} @"$GITHUB_WORKSPACE/scripts/test.sql"
