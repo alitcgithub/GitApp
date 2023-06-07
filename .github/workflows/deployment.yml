@@ -17,7 +17,14 @@ jobs:
         run: |
           # Download the desired Java distribution
           # Replace 'url_to_jdk' with the actual URL of the JDK distribution
+          pwd
           curl -L -o jdk.zip 'url_to_jdk'
+          # Verify the downloaded file
+          if not exist jdk.zip (
+            echo "Failed to download JDK distribution."
+            exit 1
+          )
+
           # Extract the downloaded JDK distribution
           Expand-Archive -Path jdk.zip -DestinationPath $env:JAVA_HOME
           # Set the Java environment variables
@@ -29,7 +36,6 @@ jobs:
       - name: Compile and run Java program
         run: |
           # Compile and run your Java program
-          pwd
           javac MyProgram.java
           java MyProgram
 
