@@ -3,23 +3,42 @@ name: Example Workflow
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
-      - name: Step 1 - Generate SQL script
-        id: generate-script
-        run: |
-          # Generate the SQL script and store it in a file
-          # You can use any logic or commands to generate the script
-          echo "SELECT * FROM table_name;" > script_$(( RANDOM % 1000 + 1 )).sql
-          echo "::set-output name=script-name::script_$(( RANDOM % 1000 + 1 )).sql"
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-      - name: Step 2 - Run SQL script
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+
+      - name: Compile and run Java program
         run: |
-          # Use the script name generated in Step 1
-          script_name=${{ steps.generate-script.outputs.script-name }}
-          echo ${script_name}
+          # Compile the Java program
+          pwd
+          javac MyProgram.java
+          # Run the Java program to generate files
+          java MyProgram
+
+      - name: Get generated file name
+        id: get-file-name
+        run: |
+          # List the contents of the 'scripts' directory and capture the filename(s)
+          dir scripts
+          echo "::set-output name=generated-files::$(dir /B /A-D scripts)"
+
+      - name: Use generated file in subsequent steps
+        run: |
+          # Retrieve the generated file names and use them in subsequent steps
+          filenames=${{ steps.get-file-name.outputs.generated-files }}
+          # Iterate over the filenames or select a specific one based on your criteria
+          for %%F in ($filenames) do (
+            echo "Using file: %%F"
+            # ... other commands that require the file
+          )
