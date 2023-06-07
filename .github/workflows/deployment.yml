@@ -59,14 +59,14 @@ jobs:
         id: generate-file
         run: |
           # Run your Java program and capture the file name
-          pwd
-          tree
           file_name=$(java -cp lib/FileGenerator.jar org.example.FileGenerator)
           echo "::set-output name=file-name::${file_name}"
+          pwd
+          tree
 
       - name: Step 6 - Run Script
         run: |
           # Use the file name generated in Step 5
           file_name=${{ steps.generate-file.outputs.file-name }}
-          scripts_directory="scripts"  # Specify the directory path if needed
+          scripts_directory="dscripts"  # Specify the directory path if needed
           java -jar script_runner.jar "$scripts_directory/$file_name"
