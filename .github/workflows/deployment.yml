@@ -48,6 +48,7 @@ jobs:
           pwd
           tree
           echo jar cvf lib/FileGenerator.jar -C classes .
+          mkdir lib
           jar cvf lib/FileGenerator.jar -C classes .
           echo after jar command
           pwd
