@@ -61,7 +61,7 @@ jobs:
           # Run your Java program and capture the file name
           pwd
           tree
-          file_name=$(java -jar lib/FileGenerator.jar)
+          file_name=$(java -cp lib/FileGenerator.jar org.example.FileGenerator)
           echo "::set-output name=file-name::${file_name}"
 
       - name: Step 6 - Run Script
