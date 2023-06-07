@@ -10,6 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Step 0
+        run: |
+          pwd
+          tree
+
       - name: Step 1 - Build Java Program
         run: |
           # Compile and build your Java program
