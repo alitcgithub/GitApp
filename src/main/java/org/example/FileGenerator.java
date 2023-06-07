@@ -24,7 +24,10 @@ public class FileGenerator {
         String file2Content = "This is file 2 content.";
         writeFile(directoryName + File.separator + file2Name, file2Content);
 
-        System.out.println(directoryName);
+        Path currentDir = Path.of("").toAbsolutePath();
+        System.out.println("Current working directory: " + currentDir);
+        
+        //System.out.println(directoryName);
     }
 
     private static void writeFile(String filename, String content) {
