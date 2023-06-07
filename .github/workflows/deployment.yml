@@ -60,7 +60,9 @@ jobs:
         run: |
           # Run your Java program and capture the file name
           java -cp lib/FileGenerator.jar org.example.FileGenerator
-          file_names=$(find dscripts -name "*.txt" -type f)
+          find dscripts -type f -exec echo {} \; > file_list.txt
+          file_names=$(cat file_list.txt)
+          #file_names=$(find dscripts -name "*.txt" -type f)
           echo "::set-output name=file-names::${file_names}"
           pwd
           tree
