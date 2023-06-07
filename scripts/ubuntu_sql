@@ -1,0 +1,25 @@
+name: Example Workflow
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Step 1 - Generate SQL script
+        id: generate-script
+        run: |
+          # Generate the SQL script and store it in a file
+          # You can use any logic or commands to generate the script
+          echo "SELECT * FROM table_name;" > script_$(( RANDOM % 1000 + 1 )).sql
+          echo "::set-output name=script-name::script_$(( RANDOM % 1000 + 1 )).sql"
+
+      - name: Step 2 - Run SQL script
+        run: |
+          # Use the script name generated in Step 1
+          script_name=${{ steps.generate-script.outputs.script-name }}
+          echo ${script_name}
