@@ -44,8 +44,12 @@ jobs:
           ls -l
           #echo "Main-Class: org.example.FileGenerator" > manifest.txt
           #cd ..
+          echo ------------- pwd -----------------
           pwd
+          tree
+          echo jar cvf lib/FileGenerator.jar -C classes .
           jar cvf lib/FileGenerator.jar -C classes .
+          echo after jar command
           pwd
           ls -l
           tree
