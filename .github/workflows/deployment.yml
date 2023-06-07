@@ -69,4 +69,5 @@ jobs:
           # Use the file name generated in Step 5
           file_name=${{ steps.generate-file.outputs.file-name }}
           scripts_directory="dscripts"  # Specify the directory path if needed
-          java -jar script_runner.jar "$scripts_directory/$file_name"
+          #java -jar script_runner.jar "$scripts_directory/$file_name"
+          cat "$scripts_directory/$file_name"
