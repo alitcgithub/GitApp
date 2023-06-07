@@ -24,7 +24,7 @@ public class FileGenerator {
         String file2Content = "This is file 2 content.";
         writeFile(directoryName + File.separator + file2Name, file2Content);
 
-        System.out.println("Files generated successfully.");
+        System.out.println(directoryName);
     }
 
     private static void writeFile(String filename, String content) {
