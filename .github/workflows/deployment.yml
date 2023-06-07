@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  build123:
+  build:
     runs-on: windows-latest
 
     steps:
@@ -14,16 +14,24 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up JDK
-        uses: actions/setup-java@v2
-        with:
-          java-version: '11'
+        run: |
+          # Download the desired Java distribution
+          # Replace 'url_to_jdk' with the actual URL of the JDK distribution
+          curl -L -o jdk.zip 'url_to_jdk'
+          # Extract the downloaded JDK distribution
+          Expand-Archive -Path jdk.zip -DestinationPath $env:JAVA_HOME
+          # Set the Java environment variables
+          $env:JAVA_HOME = "$(Get-ChildItem -Path $env:JAVA_HOME | Where-Object { $_.PSIsContainer }).FullName"
+          $env:Path = "$env:JAVA_HOME\bin;$env:Path"
+          # Verify the Java installation
+          java -version
 
       - name: Compile and run Java program
         run: |
-          # Compile the Java program
+          # Compile and run your Java program
+          echo ------------------------------
           pwd
           javac MyProgram.java
-          # Run the Java program to generate files
           java MyProgram
 
       - name: Get generated file name
